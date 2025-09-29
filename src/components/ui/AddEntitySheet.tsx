@@ -59,9 +59,6 @@ export default function AddEntitySheet({ activeForm, onOpenChange }: { activeFor
           {activeForm === 'addRecruiter' && 'Enter recruiter details below.'}
           {activeForm === 'addClosure' && 'Enter closure details below.'}
         </div>
-        <div className="mt-2 flex justify-end">
-          <Button variant="outline" onClick={closeForm}>Close</Button>
-        </div>
       </div>
 
       <div className="right-panel-body p-4 overflow-y-auto">
