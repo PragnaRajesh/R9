@@ -4,7 +4,6 @@ import type { User } from '../types';
 import { SharedDashboard } from './SharedDashboard';
 import { ActionKey } from './RoleActionBar';
 import { Button } from './ui/button';
-import RoleActionBar from './RoleActionBar';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
@@ -32,7 +31,6 @@ export function RoleBasedDashboard({ user }: RoleBasedDashboardProps) {
 
   return (
     <div className="space-y-6">
-      <RoleActionBar role={user.role} onAction={(k) => setActiveForm(k)} showAddActions />
       <SharedDashboard role={user.role} onAction={(k) => setActiveForm(k)} />
       <AddEntitySheet activeForm={activeForm} onOpenChange={(open) => { if (!open) setActiveForm(null); }} />
     </div>
