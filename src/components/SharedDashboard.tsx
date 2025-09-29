@@ -119,7 +119,7 @@ export function SharedDashboard({ role, onAction }: { role?: UserRole; onAction?
         </div>
 
         <div className="mb-6">
-          <CandidateTable selectedKPI={selectedKPI} onAction={onAction} />
+          <CandidateTable selectedKPI={selectedKPI} onAction={onAction} showClosure={role === 'admin'} />
         </div>
       </section>
 
