@@ -116,17 +116,11 @@ export function SharedDashboard({ role, onAction }: { role?: UserRole; onAction?
             <p className="text-gray-medium" />
           </div>
 
-          <div className="flex items-center gap-3">
-            {canAddClosure && (
-              <Button className="bg-blue-bright hover:bg-blue-600 text-white" onClick={() => openForm('addClosure')}>
-                Add Closure
-              </Button>
-            )}
-          </div>
+          <div className="flex items-center gap-3" />
         </div>
 
         <div className="mb-6">
-          <CandidateTable selectedKPI={selectedKPI} />
+          <CandidateTable selectedKPI={selectedKPI} onAction={onAction} />
         </div>
       </section>
 

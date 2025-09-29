@@ -20,18 +20,10 @@ import {
   SelectValue,
 } from './ui/select';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import {
   Search,
   ChevronLeft,
   ChevronRight,
-  MoreHorizontal,
   ArrowUpDown,
-  Filter,
   Download
 } from 'lucide-react';
 
@@ -56,6 +48,7 @@ interface Candidate {
 
 interface CandidateTableProps {
   selectedKPI: string | null;
+  onAction?: (key: string) => void;
 }
 
 // Mock data
@@ -160,7 +153,7 @@ const statusColors = {
   'In Progress': 'bg-purple-100 text-purple-800'
 };
 
-export function CandidateTable({ selectedKPI }: CandidateTableProps) {
+export function CandidateTable({ selectedKPI, onAction }: CandidateTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState<keyof Candidate>('recruiterName');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -358,7 +351,7 @@ export function CandidateTable({ selectedKPI }: CandidateTableProps) {
               <TableHead>Manager</TableHead>
               <TableHead>ARPU</TableHead>
               <TableHead>Notes</TableHead>
-              <TableHead className="w-12"></TableHead>
+              <TableHead className="sticky right-0 bg-white z-10">Closure</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -405,22 +398,10 @@ export function CandidateTable({ selectedKPI }: CandidateTableProps) {
                     </p>
                   </div>
                 </TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <div>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Details</DropdownMenuItem>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem>Send Email</DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600">Remove</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                <TableCell className="sticky right-0 bg-white">
+                  <Button size="sm" className="bg-blue-bright hover:bg-blue-600 text-white" onClick={() => onAction && onAction('addClosure')}>
+                    Edit
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
