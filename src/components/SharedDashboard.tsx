@@ -26,7 +26,6 @@ export function SharedDashboard({ role, onAction }: { role?: UserRole; onAction?
   const canAddCandidate = allowedActions.includes('addCandidate');
   const canAddRecruiter = allowedActions.includes('addRecruiter');
   const canAddClient = allowedActions.includes('addClient');
-  const canAddClosure = allowedActions.includes('addClosure');
 
   return (
     <div className="space-y-8">
