@@ -5,11 +5,6 @@ import { FileText, UserPlus, Building2 } from 'lucide-react';
 import { CandidateTable } from './CandidateTable';
 import MoneyFall from './ui/MoneyFall';
 import ClientRecruiterMatrix from './ClientRecruiterMatrix';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from './ui/sheet';
-import { CandidateForm } from './CandidateForm';
-import { ClientForm } from './ClientForm';
-import { RecruiterForm } from './RecruiterForm';
-import AddEntitySheet from './ui/AddEntitySheet';
 import type { UserRole } from '../types';
 import { roleActionKeys } from './RoleActionBar';
 
@@ -23,17 +18,9 @@ const kpiData = [
 export function SharedDashboard({ role, onAction }: { role?: UserRole; onAction?: (key: string) => void }) {
   const [selectedKPI, setSelectedKPI] = useState<string | null>(null);
 
-  // Sheet state for slide-in forms
-  const [activeForm, setActiveForm] = useState<'addCandidate' | 'addClient' | 'addRecruiter' | 'addClosure' | null>(null);
-
   const openForm = (key: 'addCandidate' | 'addClient' | 'addRecruiter' | 'addClosure') => {
-    if (onAction) {
-      onAction(key);
-    } else {
-      setActiveForm(key);
-    }
+    if (onAction) onAction(key);
   };
-  const closeForm = () => setActiveForm(null);
 
   const allowedActions = role ? roleActionKeys[role] || [] : [];
   const canAddCandidate = allowedActions.includes('addCandidate');
@@ -143,8 +130,6 @@ export function SharedDashboard({ role, onAction }: { role?: UserRole; onAction?
         </div>
       </section>
 
-      {/* Right-side sheet for add forms and closure (shared component) */}
-      <AddEntitySheet activeForm={activeForm} onOpenChange={(open) => { if (!open) closeForm(); }} />
     </div>
   );
 }
