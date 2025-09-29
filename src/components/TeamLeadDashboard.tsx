@@ -29,6 +29,8 @@ import {
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import ClientRecruiterMatrix from './ClientRecruiterMatrix';
+import RoleActionBar from './RoleActionBar';
+import AddEntitySheet from './ui/AddEntitySheet';
 
 interface TeamLeadDashboardProps {
   user: User;
@@ -73,6 +75,7 @@ export function TeamLeadDashboard({ user }: TeamLeadDashboardProps) {
   const [selectedTimeframe, setSelectedTimeframe] = useState('monthly');
   const [selectedTeamMember, setSelectedTeamMember] = useState('all');
   const [candidateStatus, setCandidateStatus] = useState('');
+  const [activeForm, setActiveForm] = useState<null | 'addCandidate' | 'addClient' | 'addRecruiter' | 'addClosure'>(null);
 
   const handleCandidateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,6 +95,8 @@ export function TeamLeadDashboard({ user }: TeamLeadDashboardProps) {
 
   return (
     <div className="p-6 space-y-8">
+      <RoleActionBar role={user.role} onAction={(k) => setActiveForm(k)} showAddActions />
+      <AddEntitySheet activeForm={activeForm} onOpenChange={(open) => { if (!open) setActiveForm(null); }} />
 
       {/* Team Overview Cards */}
       <section>
