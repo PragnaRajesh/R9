@@ -161,6 +161,8 @@ export function CandidateTable({ selectedKPI, onAction }: CandidateTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [editingClosureRowId, setEditingClosureRowId] = useState<number | null>(null);
+  const [closureValues, setClosureValues] = useState<Record<number, string>>({});
 
   const [selectedMonth, setSelectedMonth] = useState('all');
   const [selectedRecruiter, setSelectedRecruiter] = useState('all');
@@ -400,9 +402,22 @@ export function CandidateTable({ selectedKPI, onAction }: CandidateTableProps) {
                   </div>
                 </TableCell>
                 <TableCell className="sticky right-0 bg-white">
-                  <Button size="sm" className="bg-blue-bright hover:bg-blue-600 text-white" onClick={() => onAction && onAction('addClosure')}>
-                    Edit
-                  </Button>
+                  {editingClosureRowId === candidate.id ? (
+                    <input
+                      value={closureValues[candidate.id] ?? ''}
+                      onChange={(e) => setClosureValues({ ...closureValues, [candidate.id]: e.target.value })}
+                      onBlur={() => setEditingClosureRowId(null)}
+                      placeholder="Closure period"
+                      className="w-32 h-8 px-2 border rounded-md"
+                    />
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-700">{closureValues[candidate.id] ?? '-'}</span>
+                      <Button size="sm" className="bg-blue-bright hover:bg-blue-600 text-white" onClick={() => setEditingClosureRowId(candidate.id)}>
+                        Edit
+                      </Button>
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
