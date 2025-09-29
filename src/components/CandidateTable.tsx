@@ -49,6 +49,7 @@ interface Candidate {
 interface CandidateTableProps {
   selectedKPI: string | null;
   onAction?: (key: string) => void;
+  filters?: { month?: string; recruiter?: string; client?: string };
 }
 
 // Mock data
