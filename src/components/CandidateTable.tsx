@@ -50,6 +50,7 @@ interface CandidateTableProps {
   selectedKPI: string | null;
   onAction?: (key: string) => void;
   filters?: { month?: string; recruiter?: string; client?: string };
+  showClosure?: boolean;
 }
 
 // Mock data
@@ -154,7 +155,7 @@ const statusColors = {
   'In Progress': 'bg-purple-100 text-purple-800'
 };
 
-export function CandidateTable({ selectedKPI, onAction }: CandidateTableProps) {
+export function CandidateTable({ selectedKPI, onAction, showClosure = false }: CandidateTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState<keyof Candidate>('recruiterName');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -354,7 +355,9 @@ export function CandidateTable({ selectedKPI, onAction }: CandidateTableProps) {
               <TableHead>Manager</TableHead>
               <TableHead>ARPU</TableHead>
               <TableHead>Notes</TableHead>
-              <TableHead className="sticky right-0 bg-white z-10">Closure</TableHead>
+              {showClosure && (
+                <TableHead className="sticky right-0 bg-white z-10">Closure</TableHead>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -401,24 +404,26 @@ export function CandidateTable({ selectedKPI, onAction }: CandidateTableProps) {
                     </p>
                   </div>
                 </TableCell>
-                <TableCell className="sticky right-0 bg-white">
-                  {editingClosureRowId === candidate.id ? (
-                    <input
-                      value={closureValues[candidate.id] ?? ''}
-                      onChange={(e) => setClosureValues({ ...closureValues, [candidate.id]: e.target.value })}
-                      onBlur={() => setEditingClosureRowId(null)}
-                      placeholder="Closure period"
-                      className="w-32 h-8 px-2 border rounded-md"
-                    />
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-700">{closureValues[candidate.id] ?? '-'}</span>
-                      <Button size="sm" className="bg-blue-bright hover:bg-blue-600 text-white" onClick={() => setEditingClosureRowId(candidate.id)}>
-                        Edit
-                      </Button>
-                    </div>
-                  )}
-                </TableCell>
+                {showClosure && (
+                  <TableCell className="sticky right-0 bg-white">
+                    {editingClosureRowId === candidate.id ? (
+                      <input
+                        value={closureValues[candidate.id] ?? ''}
+                        onChange={(e) => setClosureValues({ ...closureValues, [candidate.id]: e.target.value })}
+                        onBlur={() => setEditingClosureRowId(null)}
+                        placeholder="Closure period"
+                        className="w-32 h-8 px-2 border rounded-md"
+                      />
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-700">{closureValues[candidate.id] ?? '-'}</span>
+                        <Button size="sm" className="bg-blue-bright hover:bg-blue-600 text-white" onClick={() => setEditingClosureRowId(candidate.id)}>
+                          Edit
+                        </Button>
+                      </div>
+                    )}
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
