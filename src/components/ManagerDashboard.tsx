@@ -26,6 +26,7 @@ import {
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, ComposedChart, Area, AreaChart } from 'recharts';
 import ClientRecruiterMatrix from './ClientRecruiterMatrix';
 import RoleActionBar from './RoleActionBar';
+import AddEntitySheet from './ui/AddEntitySheet';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
@@ -87,6 +88,7 @@ export function ManagerDashboard({ user }: ManagerDashboardProps) {
   const [selectedDepartment, setSelectedDepartment] = useState('all');
 
   const [candidateStatus, setCandidateStatus] = useState('');
+  const [activeForm, setActiveForm] = useState<null | 'addCandidate' | 'addClient' | 'addRecruiter' | 'addClosure'>(null);
 
   const onSubmit = (key: string) => (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -96,6 +98,8 @@ export function ManagerDashboard({ user }: ManagerDashboardProps) {
 
   return (
     <div className="p-6 space-y-8">
+      <RoleActionBar role={user.role} onAction={(k) => setActiveForm(k)} showAddActions />
+      <AddEntitySheet activeForm={activeForm} onOpenChange={(open) => { if (!open) setActiveForm(null); }} />
 
       {/* Hero Section */}
       <section className="bg-gradient-sky rounded-2xl p-8 shadow-soft">
@@ -129,7 +133,7 @@ export function ManagerDashboard({ user }: ManagerDashboardProps) {
             <h2 className="text-2xl font-semibold text-navy-dark">Candidate Summary</h2>
           </div>
           <div>
-            <RoleActionBar role={user.role} onAction={(k) => console.log('action', k)} />
+            <RoleActionBar role={user.role} onAction={(k) => setActiveForm(k)} showAddActions />
           </div>
         </div>
       </section>
